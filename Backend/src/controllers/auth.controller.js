@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import protect from '../middleware/auth.middleware.js';
 import generateToken from '../utils/generateToken.js';
 export const register = async (req,res)=>{
     try {
@@ -70,4 +71,13 @@ export const loginUser = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+export const getMe = async (req, res) => {
+  res.status(200).json(req.user);
+};
+
+
+export const getMe = async (req, res) => {
+  res.status(200).json(req.user);
 };
