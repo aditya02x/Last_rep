@@ -1,5 +1,5 @@
 import User from '../models/user.model.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import protect from '../middleware/auth.middleware.js';
 import generateToken from '../utils/generateToken.js';
@@ -26,7 +26,7 @@ export const register = async (req,res)=>{
     }
 }
 
-export const loginUser = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
