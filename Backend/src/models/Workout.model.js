@@ -34,11 +34,7 @@ const workoutSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-      notes: {
-    type: String,
-    trim: true,
-    maxlength: 500,
-  },
+
 
     exercises: [exerciseSchema],
   },
