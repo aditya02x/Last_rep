@@ -14,11 +14,28 @@ export const createWorkout = async (req,res)=>{
         });
         await workout.save();
         res.status(201).json({message:'Workout created successfully', workout});
-        
+
 
     }
     catch(error){
         console.error('Error in createWorkout controller:', error);
+        res.status(500).json({message:'Server error'});
+    }
+}
+
+export const getWorkouts = async (req,res)=>{
+    try{
+        const workouts = (await Workout.find({user: req.user._id})).toSorted({createdAt:-1});
+
+        res.status(200).json({
+            success:true,
+            count: workouts.length,
+            workouts
+        });
+
+    }
+    catch(error){
+        console.error('Error in getWorkouts controller:', error);
         res.status(500).json({message:'Server error'});
     }
 }
