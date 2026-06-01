@@ -1,42 +1,45 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const exerciseSchema = new mongoose.Schema({
-    excerciseName: {
-        type:String,
-        required:true
-    },
-    sets:{
-        type:Number,
-        required:true,
-    },
-    reps:{
-        type:Number,
-        required:true,
-    },
-    weight:{
-        type:Number,
-        required:true,
-    },
-},{
-    timestamps:true
-} );
+  exerciseName: {
+    type: String,
+    required: true,
+  },
 
+  sets: {
+    type: Number,
+    required: true,
+  },
 
-const workoutSchema = new mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
-    },
-    workoutName:{
-        type:String,
-        required:true
-    },
-    exercises:[exerciseSchema],
-},{
-    timestamps:true
+  reps: {
+    type: Number,
+    required: true,
+  },
+
+  weight: {
+    type: Number,
+    required: true,
+  },
 });
 
-export default mongoose.model('Workout',workoutSchema);
-export default mongoose.model('Exercise',exerciseSchema);
+const workoutSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
 
+    workoutName: {
+      type: String,
+      required: true,
+    },
+
+    exercises: [exerciseSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("Workout", workoutSchema);
