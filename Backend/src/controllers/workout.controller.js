@@ -23,19 +23,22 @@ export const createWorkout = async (req,res)=>{
     }
 }
 
-export const getWorkouts = async (req,res)=>{
-    try{
-        const workouts = (await Workout.find({user: req.user._id})).toSorted({createdAt:-1});
+export const getWorkouts = async (req, res) => {
+  try {
+    const workouts = await Workout.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
 
-        res.status(200).json({
-            success:true,
-            count: workouts.length,
-            workouts
-        });
+    res.status(200).json({
+      success: true,
+      count: workouts.length,
+      workouts,
+    });
+  } catch (error) {
+    console.error("Error in getWorkouts controller:", error);
 
-    }
-    catch(error){
-        console.error('Error in getWorkouts controller:', error);
-        res.status(500).json({message:'Server error'});
-    }
-}
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
