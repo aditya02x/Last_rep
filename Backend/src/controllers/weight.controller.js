@@ -8,6 +8,7 @@ export const addWeight = async (req,res)=>{
         }
 
         const weightEntry = new Weight({
+            sucess:true,
             user:req.user._id,
             weight,
         });
