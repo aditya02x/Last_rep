@@ -42,3 +42,26 @@ export const getWorkouts = async (req, res) => {
     });
   }
 };
+
+export const getWorkoutLastSession = async (req, res) => {
+    try {
+
+        const lastWorkout = await Workout.findOne({
+  user: req.user._id,
+  "exercises.exerciseName": exerciseName,
+})
+.sort({ createdAt: -1 });
+
+res.status(200).json({
+  success: true,
+  workout: lastWorkout,
+});
+
+    }
+    catch (error) {
+        console.error("Error in getWorkoutLastSession controller:", error);
+        res.status(500).json({
+            message: error.message,
+        });
+    }
+}
