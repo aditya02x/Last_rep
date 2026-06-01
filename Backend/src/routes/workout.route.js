@@ -1,7 +1,7 @@
 import express from 'express';
-import { craeteWorkout } from '../controllers/workout.controller.js';
+import { createWorkout } from '../controllers/workout.controller.js';
 import protect from '../middleware/auth.middleware.js';
 const router = express.Router();
-router.post("/",protect,craeteWorkout);
+router.post("/",protect,createWorkout);
 
 export default router;
