@@ -44,26 +44,39 @@ export const getWorkouts = async (req, res) => {
 };
 
 export const getWorkoutLastSession = async (req, res) => {
-    try {
+  try {
+    const { exerciseName } = req.params;
 
-        const { exerciseName } = req.params;
+    const lastWorkout = await Workout.findOne({
+      user: req.user._id,
+      "exercises.exerciseName": exerciseName,
+    }).sort({ createdAt: -1 });
 
-        const lastWorkout = await Workout.findOne({
-  user: req.user._id,
-  "exercises.exerciseName": exerciseName,
-})
-.sort({ createdAt: -1 });
-
-res.status(200).json({
-  success: true,
-  workout: lastWorkout,
-});
-
+    if (!lastWorkout) {
+      return res.status(404).json({
+        success: false,
+        message: "No previous session found",
+      });
     }
-    catch (error) {
-        console.error("Error in getWorkoutLastSession controller:", error);
-        res.status(500).json({
-            message: error.message,
-        });
-    }
-}
+
+    const exercise = lastWorkout.exercises.find(
+      (ex) => ex.exerciseName === exerciseName
+    );
+
+    res.status(200).json({
+      success: true,
+      exercise,
+      workoutDate: lastWorkout.createdAt,
+      workoutName: lastWorkout.workoutName,
+    });
+  } catch (error) {
+    console.error(
+      "Error in getWorkoutLastSession controller:",
+      error
+    );
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
