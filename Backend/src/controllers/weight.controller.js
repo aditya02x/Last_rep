@@ -32,3 +32,22 @@ export const addWeight = async (req,res)=>{
         });
     }
 }
+
+export const getWeightsHistory = async (req,res)=>{
+    try{
+        const weights = await Weight.find({user:req.user._id}).sort({date:1});
+
+        res.status(200).json({
+            success:true,
+            count:weights.length,
+            weights
+        })
+    }
+    catch(error){
+        console.error('Error in getWeightsHistory controller:', error);
+        res.status(500).json({
+            success:false,
+            message:'Server error'
+        });
+    }
+}
