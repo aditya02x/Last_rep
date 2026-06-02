@@ -80,3 +80,32 @@ export const getWorkoutLastSession = async (req, res) => {
     });
   }
 };
+
+export const getWorkoutById = async (req, res) => {
+  try {
+    const workout = await Workout.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!workout) {
+      return res.status(404).json({
+        success: false,
+        message: "Workout not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      workout,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+};
