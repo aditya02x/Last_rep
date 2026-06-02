@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.route.js';
 import userRoutes from './routes/user.route.js';
 import workoutRoutes from './routes/workout.route.js';
 import weightRoutes from './routes/weight.route.js';
+import dashboardRoutes from './routes/dashboard.route.js';
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/workouts', workoutRoutes);
 app.use('/api/weights',weightRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 export default app;
