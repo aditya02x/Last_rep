@@ -1,17 +1,29 @@
 import React, { useState } from "react";
-
+import { loginUser } from "../services/authservices";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    console.log({
+  try {
+    console.log("Sending:", {
       email,
       password,
     });
-  };
+
+    const data = await loginUser({
+      email,
+      password,
+    });
+
+    console.log("SUCCESS:", data);
+
+  } catch (error) {
+    console.error("ERROR:", error.response ? error.response.data : error.message);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#000000] flex items-center justify-center px-4">
