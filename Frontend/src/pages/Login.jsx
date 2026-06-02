@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/authservices";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +16,13 @@ const handleSubmit = async (e) => {
       email,
       password,
     });
+    toast.success("Login successful!");
 
     console.log("SUCCESS:", data);
 
   } catch (error) {
     console.error("ERROR:", error.response ? error.response.data : error.message);
+    toast.error("Login failed. Please check your credentials.");
   }
 };
 

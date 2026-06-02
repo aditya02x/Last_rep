@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {registerUser} from '../services/authservices';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
   const [name,setName ]= useState("")
@@ -20,7 +20,7 @@ const Register = () => {
       })
       toast.success("Registration successful!");
       console.log("SUCCESS:", data);
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       console.error("ERROR:", error.response ? error.response.data : error.message);
     }
