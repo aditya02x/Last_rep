@@ -8,10 +8,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    console.log("Sending:", {
-      email,
-      password,
-    });
+
 
     const data = await loginUser({
       email,
