@@ -1,15 +1,17 @@
-import React  from 'react'
+import React, { useState } from "react";
 
 const Login = () => {
-
-  const [email,setEmail]= React.useState("");
-  const [password,setPassword]= React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
-    
     e.preventDefault();
-    // Handle login logic here
-  }
+
+    console.log({
+      email,
+      password,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#000000] flex items-center justify-center px-4">
@@ -55,7 +57,7 @@ const Login = () => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
