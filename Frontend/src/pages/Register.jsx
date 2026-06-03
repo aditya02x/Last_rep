@@ -18,12 +18,7 @@ const Register = () => {
         email,
         password
       })
-      toast.success("Registration successful!");
-      console.log("SUCCESS:", data);
-      navigate("/login");
-    } catch (error) {
-      console.error("ERROR:", error.response ? error.response.data : error.message);
-    }
+      toast.success("Registration success
   }
 
 
