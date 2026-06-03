@@ -20,7 +20,7 @@ const Register = () => {
       })
       toast.success("Registration successful!");
       console.log("SUCCESS:", data);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("ERROR:", error.response ? error.response.data : error.message);
     }
@@ -74,8 +74,8 @@ const Register = () => {
 
         <p className="text-gray-400 text-center mt-6">
           Don't have an account?
-          <a href="/register" className="text-[#a3e635] hover:underline ml-1">
-            Register
+           <a href="/" className="text-[#a3e635] hover:underline ml-1">
+            Sign In
           </a>
         </p>
       </div>
