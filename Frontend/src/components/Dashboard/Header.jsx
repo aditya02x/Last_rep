@@ -16,22 +16,20 @@ const Header = () => {
     };
     fetchProfile();
   }, []);
-  return (
-    <div className="flex items-center justify-between mb-6">
-      <div>
-        <p className="text-gray-400 text-sm">
-          {today}
-        </p>
 
+  const name = user?.name || 'User';
+  const initial = name.split(' ')[0];
+  return (
+     <div className="flex items-center justify-between mb-6">
+      <div>
+        <p className="text-gray-400 text-sm">{today}</p>
         <h1 className="text-3xl font-bold text-white">
-          Hi, Aditya 👋
+          Hi, {name} 👋
         </h1>
       </div>
 
       <div className="w-12 h-12 rounded-full bg-[#a3e635]/20 flex items-center justify-center">
-        <span className="text-[#a3e635] font-bold">
-          A
-        </span>
+        <span className="text-[#a3e635] font-bold">{initial}</span>
       </div>
     </div>
   )
