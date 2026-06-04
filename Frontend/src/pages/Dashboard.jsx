@@ -3,6 +3,7 @@ import Header from '../components/Dashboard/Header'
 import WeightCard from '../components/Dashboard/Weight' // adjust path if needed
  // adjust path if needed
 import LastWorkoutCard from '../components/Dashboard/LastWorkoutCard' // adjust path if needed
+import StarWorkout from '../components/Dashboard/StartWorkout' // adjust path if needed
 
 const Dashboard = () => {
   return (
@@ -10,6 +11,7 @@ const Dashboard = () => {
       <Header />
       <WeightCard />
       <LastWorkoutCard />
+      <StarWorkout/>
 
 
       {/* rest of your dashboard content goes here */}
