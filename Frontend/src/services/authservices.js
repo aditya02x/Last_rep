@@ -10,11 +10,6 @@ export const loginUser = async (userData) => {
 }
 
 export const registerUser = async (userData)=>{
-    const response = await API.post("/auth/register", userData);
-    return response.data;
-}
-
-
 export const getProfile = async () => {
     const token = localStorage.getItem('token');
     const response = await API.get("/users/profile", {  // adjust route if different
