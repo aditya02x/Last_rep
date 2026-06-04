@@ -1,10 +1,9 @@
 import React from 'react'
+import WorkoutsPage from '../components/Workout/WorkoutsPage'
 
 const Workout = () => {
   return (
-    <div>
-      Thsi workout page
-    </div>
+    <WorkoutsPage />
   )
 }
 
