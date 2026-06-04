@@ -1,8 +1,6 @@
 import React from 'react'
 
-const GoalProgress = () => {
-
-    const GoalProgressCard = ({ currentWeight, goalWeight }) => {
+const GoalProgressCard = ({ currentWeight, goalWeight }) => {
   const progressPercentage =
     goalWeight > 0
       ? Math.min(
@@ -16,6 +14,8 @@ const GoalProgress = () => {
     0
   );
 
+
+    
   return (
         <div className="bg-[#1e293b] rounded-2xl p-5 border border-white/10">
       <p className="text-[#a3e635] text-sm font-semibold">
@@ -40,4 +40,4 @@ const GoalProgress = () => {
   )
 }
 
-export default GoalProgress
+export default GoalProgressCard
