@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getWorkouts } from '../../services/workoutservices.js'
+import { getWorkouts } from '../../services/workout.js'
 import { Dumbbell, ChevronRight, Clock, Flame } from 'lucide-react'
 
 const LastWorkoutCard = () => {
