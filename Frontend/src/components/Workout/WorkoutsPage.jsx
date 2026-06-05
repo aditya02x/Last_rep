@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getWorkouts, createWorkout } from '../../services/workout.js'
+import { getWorkouts, createWorkout, deleteWorkout } from '../../services/workout.js'
 import { Plus, Dumbbell, ChevronRight, X, Trash2 } from 'lucide-react'
 
 const WorkoutsPage = () => {
@@ -30,20 +30,41 @@ const WorkoutsPage = () => {
 
   useEffect(() => { fetchWorkouts(); }, []);
 
+  const handleDelete = async (e, id) => {
+    e.stopPropagation(); 
+    if (!window.confirm("Are you sure you want to delete this workout?")) return;
+
+    try {
+      await deleteWorkout(id);
+      setWorkouts(prev => prev.filter(w => w._id !== id));
+    } catch (error) {
+      console.error('Failed to delete workout:', error);
+      const errMsg = error.response?.data?.message || error.message;
+      alert(`Delete Error: ${errMsg}`);
+    }
+  };
+
   const handleCreate = async () => {
     if (!workoutName.trim()) return;
     try {
       setCreating(true);
-      // create with empty exercises first, user adds them on next page
+      
+      // ✅ Fixed payload mapping structure to avoid ObjectParameterError / Cast to embedded failed
       const data = await createWorkout({
         workoutName: workoutName.trim(),
-        exercises: [{ exerciseName: 'placeholder', sets: 1, reps: 1, weight: 0 }]
+        exercises: [{ 
+          exerciseName: 'placeholder', 
+          sets: [{ reps: 1, weight: 0 }] 
+        }]
       });
+      
       setShowModal(false);
       setWorkoutName('');
       navigate(`/workouts/${data.workout._id}/log`);
     } catch (error) {
       console.error('Failed to create workout:', error);
+      const errMsg = error.response?.data?.message || error.message;
+      alert(`Create Error: ${errMsg}`);
     } finally {
       setCreating(false);
     }
@@ -75,7 +96,7 @@ const WorkoutsPage = () => {
         </button>
       </div>
 
-      {/* Loading */}
+      {/* Loading Block */}
       {loading && (
         <div className="flex flex-col gap-3">
           {[1, 2, 3].map(i => (
@@ -87,7 +108,7 @@ const WorkoutsPage = () => {
         </div>
       )}
 
-      {/* Empty state */}
+      {/* Empty State Layout */}
       {!loading && workouts.length === 0 && (
         <div className="flex flex-col items-center justify-center mt-24 gap-4">
           <div className="w-16 h-16 rounded-3xl bg-[#a3e635]/10 border border-[#a3e635]/20 flex items-center justify-center">
@@ -111,10 +132,10 @@ const WorkoutsPage = () => {
       {!loading && workouts.length > 0 && (
         <div className="flex flex-col gap-3">
           {workouts.map((workout) => (
-            <button
+            <div
               key={workout._id}
               onClick={() => navigate(`/workouts/${workout._id}/log`)}
-              className="bg-[#1c2333] rounded-2xl p-4 flex items-center gap-4 border border-white/[0.05] hover:border-[#a3e635]/20 active:scale-[0.99] transition-all text-left w-full"
+              className="bg-[#1c2333] rounded-2xl p-4 flex items-center gap-4 border border-white/[0.05] hover:border-[#a3e635]/20 active:scale-[0.99] transition-all text-left w-full cursor-pointer relative group"
             >
               {/* Icon */}
               <div className="w-12 h-12 rounded-xl bg-[#a3e635]/10 border border-[#a3e635]/20 flex items-center justify-center shrink-0">
@@ -131,8 +152,18 @@ const WorkoutsPage = () => {
                 </p>
               </div>
 
-              <ChevronRight size={18} className="text-gray-600 shrink-0" />
-            </button>
+              {/* Action Operations Column */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  onClick={(e) => handleDelete(e, workout._id)}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-gray-500 hover:text-red-400 hover:bg-red-500/10 active:scale-90 transition-all z-10"
+                  title="Delete Workout"
+                >
+                  <Trash2 size={18} />
+                </button>
+                <ChevronRight size={18} className="text-gray-600 shrink-0" />
+              </div>
+            </div>
           ))}
         </div>
       )}
@@ -144,7 +175,6 @@ const WorkoutsPage = () => {
             className="w-full bg-[#111827] rounded-t-3xl p-6 border-t border-white/[0.08]"
             style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
           >
-            {/* Modal header */}
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-white text-lg font-bold">New Workout</h2>
               <button
@@ -155,7 +185,6 @@ const WorkoutsPage = () => {
               </button>
             </div>
 
-            {/* Input */}
             <input
               type="text"
               value={workoutName}
@@ -165,7 +194,6 @@ const WorkoutsPage = () => {
               className="w-full bg-black/30 text-white text-base rounded-2xl px-4 py-3.5 outline-none border border-white/5 placeholder:text-gray-600 focus:border-[#a3e635]/40 transition-all mb-4"
             />
 
-            {/* Quick suggestions */}
             <p className="text-gray-500 text-[11px] uppercase tracking-widest mb-2">Quick select</p>
             <div className="flex flex-wrap gap-2 mb-6">
               {SUGGESTIONS.map(s => (
@@ -183,7 +211,6 @@ const WorkoutsPage = () => {
               ))}
             </div>
 
-            {/* Create button */}
             <button
               onClick={handleCreate}
               disabled={!workoutName.trim() || creating}
@@ -198,4 +225,4 @@ const WorkoutsPage = () => {
   )
 }
 
-export default WorkoutsPage
+export default WorkoutsPage;
