@@ -1,35 +1,32 @@
-import jwt from "jsonwebtoken";
-import User from "../models/user.model.js";
+import jwt from 'jsonwebtoken';
+import User from '../models/User.model.js';
 
 const protect = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
+  let token;
 
-    if (
-      !authHeader ||
-      !authHeader.startsWith("Bearer ")
-    ) {
-      return res.status(401).json({
-        message: "Unauthorized",
-      });
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      token = req.headers.authorization.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Extract whatever ID property your JWT registration route signs
+      const searchId = decoded.userId || decoded.id || decoded._id;
+      
+      req.user = await User.findById(searchId).select('-password');
+
+      if (!req.user) {
+        return res.status(401).json({ success: false, message: 'User not found' });
+      }
+
+      next();
+    } catch (error) {
+      console.error('Auth Middleware Error:', error);
+      return res.status(401).json({ success: false, message: 'Not authorized, token failed' });
     }
+  }
 
-    const token = authHeader.split(" ")[1];
-
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET
-    );
-
-    req.user = await User.findById(
-      decoded.userId
-    ).select("-password");
-
-    next();
-  } catch (error) {
-    return res.status(401).json({
-      message: "Invalid token",
-    });
+  if (!token) {
+    return res.status(401).json({ success: false, message: 'Not authorized, no token' });
   }
 };
 

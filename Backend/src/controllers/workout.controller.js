@@ -119,3 +119,49 @@ export const getWorkoutById = async (req, res) => {
     });
   }
 };
+
+export const updateWorkout = async (req, res) => {
+  try {
+    const { exercises } = req.body;
+
+    const workout = await Workout.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { exercises },
+      { new: true }
+    );
+
+    if (!workout) {
+      return res.status(404).json({ success: false, message: 'Workout not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Workout updated successfully', workout });
+  } catch (error) {
+    console.error('Error in updateWorkout controller:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteWorkout = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const workout = await Workout.findByIdAndDelete(id);
+
+    if (!workout) {
+      return res.status(404).json({
+        success: false,
+        message: 'Workout not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Workout deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
