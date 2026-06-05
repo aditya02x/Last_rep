@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getProfile, updateProfile } from "../services/Profile.js";
+import { getProfile, updateProfile } from "../../services/Profile.js";
 import {
   User,
   Ruler,
