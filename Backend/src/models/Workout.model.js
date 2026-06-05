@@ -1,12 +1,7 @@
 import mongoose from "mongoose";
 
-const exerciseSchema = new mongoose.Schema({
-  exerciseName: {
-    type: String,
-    required: true,
-  },
-
-  sets: {
+const setSchema = new mongoose.Schema({
+  weight: {
     type: Number,
     required: true,
   },
@@ -15,11 +10,15 @@ const exerciseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+});
 
-  weight: {
-    type: Number,
+const exerciseSchema = new mongoose.Schema({
+  exerciseName: {
+    type: String,
     required: true,
   },
+
+  sets: [setSchema],
 });
 
 const workoutSchema = new mongoose.Schema(
@@ -35,10 +34,8 @@ const workoutSchema = new mongoose.Schema(
       required: true,
     },
 
-
     exercises: [exerciseSchema],
   },
-  
   {
     timestamps: true,
   }
