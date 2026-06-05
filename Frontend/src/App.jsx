@@ -7,7 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import WorkoutDay from "./pages/WorkoutDay";
 import WorkoutLogPage from "./components/Workout/WorkoutLogPage";
 import Progress from "./pages/Progress";
-import Profile from "./pages/Profile";
+import Profile from "./pages/ProfilePage";
 
 function App() {
   return (
