@@ -6,6 +6,8 @@ import Dashboard from "./pages/Dashboard";
 
 import WorkoutDay from "./pages/WorkoutDay";
 import WorkoutLogPage from "./components/Workout/WorkoutLogPage";
+import Progress from "./pages/Progress";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/workouts" element={<WorkoutDay />} />
         <Route path="/workouts/:id/log" element={<WorkoutLogPage />} />
+        <Route path="/progress" element={<Progress/>} />
+        <Route path="/profile" element={<Profile/>} />
 
       </Routes>
     </BrowserRouter>
