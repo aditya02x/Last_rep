@@ -62,6 +62,13 @@ const WeightProgressChart = () => {
   const trending = diff !== null && parseFloat(diff) < 0;
 
   if (loading) {
+    return (
+      <div className="bg-[#111827] rounded-3xl p-5 border border-white/[0.05] animate-pulse">
+        <div className="h-5 w-36 bg-white/10 rounded mb-4" />
+        <div className="h-56 bg-white/5 rounded-2xl" />
+      </div>
+    );
+  }
 
   if (data.length === 0) {
     return (
