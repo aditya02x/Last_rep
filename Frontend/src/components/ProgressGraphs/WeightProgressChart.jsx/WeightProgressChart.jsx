@@ -3,7 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid, ReferenceLine
 } from "recharts";
-import { getWeightHistory } from '../../services/Weightservices.js'
+import { getWeightHistory } from '../../../services/Weightservices.js'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 
 const CustomTooltip = ({ active, payload, label }) => {
