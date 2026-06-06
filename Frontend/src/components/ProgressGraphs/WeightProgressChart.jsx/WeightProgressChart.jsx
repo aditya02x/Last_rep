@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
-  AreaChart, Area, XAxis, YAxis, Tooltip,
-  ResponsiveContainer, CartesianGrid
+  LineChart, Line, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, CartesianGrid, ReferenceLine
 } from "recharts";
-import { getWeightHistory } from '../../../services/Weightservices.js';
-import { TrendingDown, TrendingUp, Scale } from 'lucide-react';
+import { getWeightHistory } from '../../../services/Weightservices.js'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-[#1e293b] border border-slate-700/50 backdrop-blur-md rounded-xl px-3 py-2 shadow-2xl animate-in fade-in zoom-in-95 duration-100">
-        <p className="text-slate-400 text-xs font-medium mb-0.5">{label}</p>
-        <p className="text-[#a3e635] font-bold text-sm tracking-tight">
-          {payload[0].value} <span className="text-xs font-normal text-slate-400">kg</span>
-        </p>
+      <div className="bg-[#1a2335] border border-white/10 rounded-xl px-3 py-2 shadow-xl">
+        <p className="text-gray-400 text-xs mb-0.5">{label}</p>
+        <p className="text-[#a3e635] font-bold text-sm">{payload[0].value} kg</p>
       </div>
     );
   }
@@ -23,7 +21,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 const WeightProgressChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState('all'); // 'week' | 'month' | 'all'
 
   useEffect(() => {
     const fetch = async () => {
@@ -65,65 +63,55 @@ const WeightProgressChart = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#0f172a] rounded-3xl p-6 border border-slate-800/60 animate-pulse shadow-xl">
-        <div className="flex justify-between items-center mb-6">
-          <div className="space-y-2">
-            <div className="h-5 w-32 bg-slate-800 rounded-lg" />
-            <div className="h-4 w-20 bg-slate-800/60 rounded-md" />
-          </div>
-          <div className="h-7 w-40 bg-slate-800 rounded-lg" />
-        </div>
-        <div className="h-56 bg-slate-800/30 rounded-2xl border border-slate-800/20" />
+      <div className="bg-[#111827] rounded-3xl p-5 border border-white/[0.05] animate-pulse">
+        <div className="h-5 w-36 bg-white/10 rounded mb-4" />
+        <div className="h-56 bg-white/5 rounded-2xl" />
       </div>
     );
   }
 
   if (data.length === 0) {
     return (
-      <div className="bg-[#0f172a] rounded-3xl p-8 border border-slate-800/60 text-center shadow-xl flex flex-col items-center justify-center min-h-[320px]">
-        <div className="p-4 bg-slate-800/40 rounded-2xl text-slate-400 mb-4 border border-slate-700/30">
-          <Scale size={28} className="opacity-80" />
-        </div>
-        <h3 className="text-white font-semibold text-lg mb-1 tracking-tight">No weight data yet</h3>
-        <p className="text-slate-400 text-sm max-w-xs leading-relaxed">
-          Start logging your daily weight measurements to visually track your fitness journey trends.
-        </p>
+      <div className="bg-[#111827] rounded-3xl p-5 border border-white/[0.05]">
+        <h3 className="text-white font-bold text-lg mb-2">Weight Progress</h3>
+        <p className="text-gray-500 text-sm">No weight data yet. Start logging your weight!</p>
       </div>
     );
   }
 
   return (
     <div
-      className="bg-gradient-to-b from-[#0f172a] to-[#0b0f19] rounded-3xl p-6 border border-slate-800/60 shadow-xl"
+      className="bg-[#111827] rounded-3xl p-5 border border-white/[0.05]"
       style={{ fontFamily: '"Space Grotesk", system-ui, sans-serif' }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-white font-bold text-lg tracking-tight leading-tight">Weight Progress</h3>
+          <h3 className="text-white font-bold text-lg leading-tight">Weight Progress</h3>
           {diff !== null && (
-            <div className="flex items-center gap-1.5 mt-1">
-              <div className={`flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-xs font-semibold ${
-                trending ? 'bg-[#a3e635]/10 text-[#a3e635]' : 'bg-rose-500/10 text-rose-400'
-              }`}>
-                {trending ? <TrendingDown size={12} /> : <TrendingUp size={12} />}
-                <span>{diff > 0 ? '+' : ''}{diff} kg</span>
-              </div>
-              <span className="text-slate-500 text-xs font-medium">this period</span>
+            <div className="flex items-center gap-1 mt-0.5">
+              {trending
+                ? <TrendingDown size={13} className="text-[#a3e635]" />
+                : <TrendingUp size={13} className="text-red-400" />
+              }
+              <span className={`text-xs font-semibold ${trending ? 'text-[#a3e635]' : 'text-red-400'}`}>
+                {diff > 0 ? '+' : ''}{diff} kg
+              </span>
+              <span className="text-gray-600 text-xs">in this period</span>
             </div>
           )}
         </div>
 
         {/* Filter pills */}
-        <div className="flex p-1 bg-slate-900/80 rounded-xl border border-slate-800/50">
+        <div className="flex gap-1.5">
           {['week', 'month', 'all'].map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all capitalize duration-200 ${
+              className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg border transition-all capitalize ${
                 filter === f
-                  ? 'bg-[#a3e635] text-black shadow-md shadow-[#a3e635]/10'
-                  : 'text-slate-400 hover:text-white'
+                  ? 'bg-[#a3e635] text-black border-[#a3e635]'
+                  : 'bg-white/[0.03] text-gray-500 border-white/[0.06] hover:text-white'
               }`}
             >
               {f}
@@ -133,58 +121,47 @@ const WeightProgressChart = () => {
       </div>
 
       {/* Chart */}
-      <div className="h-56 w-full -ml-4 pr-2">
+      <div className="h-56">
         <ResponsiveContainer width="100%" height="100%">
-          {/* Changed to AreaChart for that modern subtle gradient effect */}
-          <AreaChart data={filtered} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-            <defs>
-              <linearGradient id="weightGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#a3e635" stopOpacity={0.15} />
-                <stop offset="95%" stopColor="#a3e635" stopOpacity={0.0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" vertical={false} opacity={0.4} />
+          <LineChart data={filtered} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+            <CartesianGrid stroke="#1e2a3a" strokeDasharray="3 3" vertical={false} />
             <XAxis
               dataKey="date"
-              tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: '#4b5563', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
-              dy={10}
+              interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: '#4b5563', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
-              domain={['dataMin - 1', 'dataMax + 1']}
-              dx={-5}
+              domain={['dataMin - 2', 'dataMax + 2']}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#334155', strokeWidth: 1, strokeDasharray: '4 4' }} />
-            <Area
+            <Tooltip content={<CustomTooltip />} />
+            <Line
               type="monotone"
               dataKey="weight"
               stroke="#a3e635"
               strokeWidth={2.5}
-              fillOpacity={1}
-              fill="url(#weightGradient)"
-              dot={{ fill: '#0f172a', stroke: '#a3e635', strokeWidth: 2, r: 3 }}
-              activeDot={{ fill: '#a3e635', r: 5, strokeWidth: 3, stroke: '#0f172a' }}
+              dot={{ fill: '#a3e635', r: 3, strokeWidth: 0 }}
+              activeDot={{ fill: '#a3e635', r: 5, strokeWidth: 2, stroke: '#0a0f1c' }}
             />
-          </AreaChart>
+          </LineChart>
         </ResponsiveContainer>
       </div>
 
       {/* Min / Max / Avg summary */}
-      <div className="grid grid-cols-3 gap-2.5 mt-6">
+      <div className="grid grid-cols-3 gap-2 mt-4">
         {[
           { label: 'Start', value: first },
           { label: 'Current', value: last },
           { label: 'Lowest', value: filtered.length ? Math.min(...filtered.map(d => d.weight)) : '--' },
         ].map(({ label, value }) => (
-          <div key={label} className="bg-slate-900/40 rounded-2xl px-4 py-2.5 border border-slate-800/40 hover:border-slate-800 transition-colors duration-200">
-            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">{label}</p>
-            <p className="text-white text-base font-bold tracking-tight tabular-nums">
-              {value}
-              {value !== '--' && <span className="text-slate-500 text-xs font-normal ml-0.5">kg</span>}
+          <div key={label} className="bg-black/20 rounded-xl px-3 py-2 text-center border border-white/[0.04]">
+            <p className="text-gray-600 text-[10px] uppercase tracking-widest mb-0.5">{label}</p>
+            <p className="text-white text-sm font-bold tabular-nums">
+              {value}<span className="text-gray-600 text-[10px] ml-0.5">kg</span>
             </p>
           </div>
         ))}
