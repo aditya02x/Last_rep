@@ -20,3 +20,6 @@ export const addWeight = async (weightData) => {
     });
     return response.data;
 }
+
+
+
