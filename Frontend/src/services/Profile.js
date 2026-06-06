@@ -1,6 +1,6 @@
 import API from "./api";
 
-api.interceptors.request.use((config) => {
+API.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
   if (token) {
@@ -11,11 +11,11 @@ api.interceptors.request.use((config) => {
 });
 
 export const getProfile = async () => {
-  const response = await api.get("/profile");
+  const response = await API.get("/profile");
   return response.data;
 };
 
 export const updateProfile = async (profileData) => {
-  const response = await api.patch("/profile", profileData);
+  const response = await API.patch("/profile", profileData);
   return response.data;
 };
