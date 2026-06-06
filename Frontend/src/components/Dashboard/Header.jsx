@@ -8,14 +8,15 @@ const Header = () => {
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        setUser(data);
-      } catch (error) {
-        console.error('Failed to fetch profile:', error);
-      }
-    };
+  const fetchProfile = async () => {
+  try {
+    const data = await getProfile();
+    console.log('Profile data:', data); // check the structure
+    setUser(data.user); // adjust if data structure is different
+  } catch (error) {
+    console.error('Failed to fetch profile:', error);
+  }
+};
     fetchProfile();
   }, []);
 
