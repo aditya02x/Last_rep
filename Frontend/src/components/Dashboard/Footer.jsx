@@ -9,7 +9,9 @@ const Footer = () => {
   const tabs = [
     { label: 'Home', icon: Home, path: '/dashboard' },
     { label: 'Workouts', icon: Dumbbell, path: '/workouts' },
-    { label: 'Progress', icon: TrendingUp, path: '/progre
+    { label: 'Progress', icon: TrendingUp, path: '/progress' },
+    { label: 'Profile', icon: User, path: '/profile' },
+  ]
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#0a0f1c] border-t border-white/[0.06] px-6 py-3 flex items-center justify-between z-50">
