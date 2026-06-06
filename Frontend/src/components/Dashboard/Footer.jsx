@@ -2,14 +2,14 @@ import React from 'react'
 import { Home, Dumbbell, TrendingUp, User } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
+const Footer = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const tabs = [
     { label: 'Home', icon: Home, path: '/dashboard' },
     { label: 'Workouts', icon: Dumbbell, path: '/workouts' },
-    { label: 'Progress', icon: TrendingUp, path: '/progress' },
-    { label: 'Profile', icon: User, path: '/profile' },
-  ]
+    { label: 'Progress', icon: TrendingUp, path: '/progre
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-[#0a0f1c] border-t border-white/[0.06] px-6 py-3 flex items-center justify-between z-50">
