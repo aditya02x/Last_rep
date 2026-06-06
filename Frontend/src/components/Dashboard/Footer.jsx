@@ -2,8 +2,6 @@ import React from 'react'
 import { Home, Dumbbell, TrendingUp, User } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-const Footer = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const tabs = [
