@@ -49,13 +49,7 @@ const WeightProgressChart = () => {
       return data.filter(d => d.rawDate >= weekAgo);
     }
     if (filter === 'month') {
-      const monthAgo = new Date(now - 30 * 24 * 60 * 60 * 1000);
-      return data.filter(d => d.rawDate >= monthAgo);
-    }
-    return data;
-  };
-
-  const filtered = filterData();
+      const monthAgo = new Date(now - 30 * 24 *
   const first = filtered[0]?.weight;
   const last = filtered[filtered.length - 1]?.weight;
   const diff = first && last ? (last - first).toFixed(1) : null;
